@@ -1,57 +1,61 @@
-export const productInfo = (name, price) => {
-  // price = 10000 => 10.000
-  const formattedPrice = price.toLocaleString("vi-VN");
-  return `Sản phẩm: ${name}, Giá: ${formattedPrice} VNĐ"`;
-};
-
-export const greet = (name) => `Hello, ${name}!`;
-
-export const sumUpTo = (n) => {
+export const sumArray = (arr) => {
   let sum = 0;
-  for (let i = 1; i <= n; i++) {
-    sum = sum + i;
+  for (let i = 0; i < arr.length; i++) {
+    sum = sum + arr[i];
   }
   return sum;
 };
 
-export const square = (n) => n * n;
-
-export const isEven = (n) => {
-  return n % 2 === 0;
-};
-export const firstElement = (arr) => {
-  if (arr.length < 1) {
-    return undefined;
-  }
-  return arr[0];
-};
-
-export const sum = (...numbers) => {
-  let sum = 0;
-  for (let i = 0; i < numbers.length; i++) {
-    sum = sum + numbers[i];
-  }
-  return sum;
-};
-
-export const printNames = (peopleArr) => {
-  //[{ name: "An" }, { name: "Bình" }]
-  let result = "";
-  for (let i = 0; i < peopleArr.length; i++) {
-    result = result + peopleArr[i].name + ", ";
-  }
-  return result;
-
-  //   return peopleArr.map((person) => person.name).join(", ");
-};
-
-export const findMax = (numbers) => {
-  // [3,2,7,6,1] => 7
-  let max = numbers[0];
-  for (let i = 1; i < numbers.length; i++) {
-    if (numbers[i] > max) {
-      max = numbers[i];
+export const countOccurrences = (arr, value) => {
+  //[1,2,3,2,2,6] - count: 2
+  let count = 0;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === value) {
+      count++;
     }
   }
-  return max;
+  return count;
+};
+
+export const removeDuplicates = (arr) => {
+  // [1,2,3,3,4,5,4,5]
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (newArr.indexOf(arr[i]) === -1) {
+      newArr.push(arr[i]);
+    }
+  }
+
+  return newArr;
+  //return new Set(arr);
+};
+
+export const flattenArray = (arr) => {
+  // [[1,2,3], [4,5,6], [7,8,9]]
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr[i].length; j++) {
+      newArr.push(arr[i][j]);
+    }
+  }
+  return newArr;
+  //   return arr.flat();
+};
+
+export const isSymmetric = (arr) => {
+  // [1,2,3,2,1]
+  for (let i = 0; i < arr.length / 2; i++) {
+    if (arr[i] !== arr[arr.length - i - 1]) {
+      return false;
+    }
+  }
+  return true;
+};
+
+export const findSecondLargest = (arr) => {
+  //sort array
+  let sortedArr = arr.sort((a, b) => a - b);
+
+  //get second largest
+  return sortedArr[sortedArr.length - 2];
 };
