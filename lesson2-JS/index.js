@@ -114,3 +114,101 @@
 // - slice: cắt phần tử trong mảng
 // - splice: xóa phần tử trong mảng
 // - concat: nối các mảng thành một mảng
+
+// ---------------------------------
+
+// 2. Object
+// 2.1 Khai báo object
+// let person = {
+//   name: "John",
+//   age: 20,
+//   city: "New York",
+// };
+
+// let apple = {
+//   color: "red",
+//   weight: "100g",
+//   price: 10000,
+//   state: "fresh",
+//   isFresh: true,
+// };
+
+// console.log("person:", person);
+
+// 2.2 Truy cập vào phần tử của object
+
+// console.log("person:", person.city);
+// console.log("person:", person["age"]);
+
+// console.log("apple:", apple.color);
+// console.log("apple:", apple["color"]);
+
+// -- Destructuring
+// let { age, name, city } = person;
+
+// console.log("name:", name);
+// console.log("age:", age);
+// console.log("city:", city);
+
+// - thay đổi giá trị
+
+// console.log("apple:", apple);
+// apple.color = "green";
+// apple["weight"] = "200g";
+
+// console.log("apple: - 1", apple);
+
+//- xoá key của object
+
+// delete apple.isFresh;
+
+// console.log("apple: - 2", apple);
+
+// For in : duyệt qua từng key của object
+
+// const person = {
+//   name: "MindX",
+//   age: 10,
+//   country: "VietNam",
+// };
+
+// for (const key in person) {
+//   console.log("🚀 ~ key:", key);
+
+//   console.log(key + " là " + person[key]);
+// }
+
+//- object.key
+
+// let keysOfPerson = Object.keys(person);
+// let valuesOfPerson = Object.values(person);
+// console.log("🚀 ~ keysOfPerson:", keysOfPerson);
+// console.log("🚀 ~ valuesOfPerson:", valuesOfPerson);
+
+//- 0bject assign
+
+// const obj1 = { a: 1 };
+// const obj2 = { b: 2 };
+// const mergedObj = Object.assign({}, obj1, obj2);
+// console.log(mergedObj); // Output: { a: 1, b: 2 }
+
+//Spread operator
+
+let person = {
+  name: "MindX",
+  age: 10,
+  country: "VietNam",
+};
+
+let arr = [1, 2, 3, 4, 5];
+
+let person2 = { ...person, adress: "Ha Noi" };
+let arr2 = [...arr];
+
+console.log("person: - 1", person);
+console.log("person2: - 1", person2);
+
+person2.name = "Cuong";
+
+console.log("person2: - 2", person2);
+console.log("person: - 2", person);
