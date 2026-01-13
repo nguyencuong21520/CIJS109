@@ -1,0 +1,71 @@
+.title_custom{
+  color:red
+}
+.desc_custom{
+  color:blue;
+  background-color:yellow
+}
+
+.student-list-container {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.student-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.student-id {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.student-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.student-info {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #555;
+}
+.search-input{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.search-container{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.search-button{
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+.search-button:hover{
+  background-color: #0056b3;
+}
