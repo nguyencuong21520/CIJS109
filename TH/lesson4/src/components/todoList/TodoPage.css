@@ -1,0 +1,46 @@
+.todo-page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.todo-page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.todo-page-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+}
+
+.todo-page-subtitle {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0;
+    font-weight: 500;
+}
+
+.todo-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.todo-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f9fafb;
+    border: 2px dashed #e5e7eb;
+    border-radius: 12px;
+    color: #9ca3af;
+    font-size: 16px;
+}
+
+.todo-empty-state p {
+    margin: 0;
+}

@@ -1,6 +1,7 @@
 import UserInfoForm from "./components/UserInfoForm"
 import ShowUserInfo from "./components/ShowUserInfo"
 import { useState } from "react"
+import TodoPage from "./components/todoList/TodoPage"
 const App = () => {
 
   const [name, setName] = useState("")
@@ -24,6 +25,8 @@ const App = () => {
       <h1>Exercise 1</h1>
       <UserInfoForm name={name} email={email} handleNameChange={handleNameChange} handleEmailChange={handleEmailChange} handleSubmit={handleSubmit} />
       {isSubmitted && <ShowUserInfo name={name} email={email} />}
+
+      <TodoPage />
     </div>
   )
 }
