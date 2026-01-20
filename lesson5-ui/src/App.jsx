@@ -1,93 +1,155 @@
-import { Table, Tag, Form, Input, Checkbox, Button } from 'antd';
+import { Form, Input, Checkbox, Button, Switch, Radio, Select } from 'antd';
+import { useState } from 'react';
 
 function App() {
-
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
-    },
-    {
-      key: '3',
-      name: 'Cuong',
-      age: 42,
-      address: '10 Downing Street',
-    },
-  ];
-
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name'
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-      render: (value, record, index) => {
-        console.log("🚀 ~ App ~ record:", record)
-        return <Tag color="volcano">{record.name}: {record.age} years old, lives in {record.address}</Tag>
-      }
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address'
-    },
-  ];
+  const [form] = Form.useForm();
+  const [radioValue, setRadioValue] = useState(2);
+  const [switchValue, setSwitchValue] = useState(false);
 
   const handleSubmit = (values) => {
     console.log("🚀 ~ handleSubmit ~ values:", values)
   }
 
+  const handleCancel = () => {
+    form.resetFields();
+  }
+
   return (
-    <>
-      <h1>Antd UI demo</h1>
-      <h2>Table</h2>
-      <Table dataSource={dataSource} columns={columns} />
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-8">
+        <Form
+          form={form}
+          onFinish={handleSubmit}
+          layout="vertical"
+          initialValues={{
+            radio: 2,
+            switch: false,
+            dropdown: 'Dropdown option'
+          }}
+          className="space-y-4"
+        >
+          {/* Username Field */}
+          <Form.Item
+            label={<span className="text-gray-700 font-medium">Username</span>}
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <Input
+              className="rounded-lg"
+              size="large"
+              placeholder="Enter username"
+            />
+          </Form.Item>
 
-      <h2>Form</h2>
-      <Form
-        onFinish={handleSubmit}
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
-      >
-        <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please input your username!' }]}>
-          <Input />
-        </Form.Item>
+          {/* Password Field */}
+          <Form.Item
+            label={<span className="text-gray-700 font-medium">Password</span>}
+            name="password"
+            rules={[
+              { required: true, message: 'Please input your password!' },
+              { min: 4, max: 12, message: 'Password must be between 4 and 12 characters!' }
+            ]}
+            help={<span className="text-gray-500 text-sm">Your password is between 4 and 12 characters</span>}
+          >
+            <Input.Password
+              className="rounded-lg"
+              size="large"
+              placeholder="Enter password"
+            />
+          </Form.Item>
 
-        <Form.Item label="Password" name="password" rules={[{ required: true, message: 'Please input your password!' }, { min: 6, message: 'Password must be at least 6 characters!' }]}>
-          <Input.Password />
-        </Form.Item>
+          {/* Input Text with Error */}
+          <Form.Item
+            label={<span className="text-gray-700 font-medium">Input Text Label</span>}
+            name="errorInput"
+            validateStatus="error"
+            help={<span className="text-red-500 text-sm">Error message informing me of a problem</span>}
+          >
+            <Input
+              className="rounded-lg border-red-500"
+              size="large"
+              placeholder="Typing"
+              suffix={
+                <span className="flex items-center justify-center w-6 h-6 bg-red-500 rounded-full text-white text-xs">
+                  !
+                </span>
+              }
+            />
+          </Form.Item>
 
-        <Form.Item name="remember" valuePropName="checked" label={null}>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
+          {/* Remember me Checkbox */}
+          <Form.Item name="remember" valuePropName="checked" className="mb-6">
+            <Checkbox className="text-gray-700">
+              Remember me
+            </Checkbox>
+          </Form.Item>
 
-        <Form.Item label={null}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+          {/* Switch */}
+          <Form.Item name="switch" valuePropName="checked" className="mb-6">
+            <div className="flex items-center gap-3">
+              <Switch
+                checked={switchValue}
+                onChange={setSwitchValue}
+                className="bg-gray-300"
+              />
+              <span className="text-gray-700">Off</span>
+            </div>
+          </Form.Item>
 
-      <h1 class="text-3xl font-bold underline text-red-500 hover:text-blue-500">
-        Hello world!
-      </h1>
+          {/* Radio Group */}
+          <Form.Item name="radio" className="mb-6">
+            <Radio.Group
+              onChange={(e) => setRadioValue(e.target.value)}
+              value={radioValue}
+              className="flex flex-col gap-4"
+            >
+              <Radio value={1} className="text-gray-700">Radio selection 1</Radio>
+              <Radio value={2} className="text-gray-700">Radio selection 2</Radio>
+              <Radio value={3} className="text-gray-700">Radio selection 3</Radio>
+            </Radio.Group>
+          </Form.Item>
 
-    </>
+          {/* Dropdown */}
+          <Form.Item
+            label={<span className="text-gray-700 font-medium">Dropdown Title</span>}
+            name="dropdown"
+            rules={[{ required: true, message: 'Please select an option!' }]}
+          >
+            <Select
+              size="large"
+              className="w-full"
+              placeholder="Select an option"
+            >
+              <Select.Option value="Dropdown option">Dropdown option</Select.Option>
+              <Select.Option value="Dropdown option 1">Dropdown option 1</Select.Option>
+              <Select.Option value="Dropdown option 2">Dropdown option 2</Select.Option>
+            </Select>
+          </Form.Item>
+
+          {/* Action Buttons */}
+          <Form.Item className="mb-0 pt-6">
+            <div className="flex gap-4">
+              <Button
+                size="large"
+                onClick={handleCancel}
+                className="flex-1 h-12 rounded-lg border-2 border-indigo-600 text-indigo-600 font-medium hover:bg-indigo-50"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                className="flex-1 h-12 rounded-lg bg-indigo-600 hover:bg-indigo-700 font-medium"
+              >
+                Next
+              </Button>
+            </div>
+          </Form.Item>
+        </Form>
+      </div>
+    </div>
   )
-
 }
+
 export default App

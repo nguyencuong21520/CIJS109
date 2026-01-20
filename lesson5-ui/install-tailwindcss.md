@@ -21,3 +21,7 @@ Open `./src/index.css` and add the following import statement:
 ```css
 @import "tailwindcss";
 ```
+
+
+**NOTE:
+Install Tailwind v3: https://v3.tailwindcss.com/docs/guides/vite 
