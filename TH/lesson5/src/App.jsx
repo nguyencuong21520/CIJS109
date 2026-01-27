@@ -1,87 +1,133 @@
-import { Form, Input, Checkbox, Switch, Radio, Select, Button } from "antd"
-import { InputLabel } from "./components/InputLabel"
-import { ExclamationCircleFilled } from "@ant-design/icons"
-import { useState } from "react"
+import { useState } from "react";
+import { SignupForm } from "./components/SignupForm.jsx";
+import { LoginForm } from "./components/LoginForm.jsx";
+
+const API_URL =
+  "https://mindx-mockup-server.vercel.app/api/resources/users?apiKey=67fe6ce4c590d6933cc126d9";
+
 const App = () => {
+  const [mode, setMode] = useState("signup"); // "signup" | "login"
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null); // { type: "success" | "error", text: string }
 
-  const [switchValue, setSwitchValue] = useState(false)
-  const [radioValue, setRadioValue] = useState(1)
+  const handleSignup = async (formValues) => {
+    setLoading(true);
+    setMessage(null);
 
-  const handleSubmit = (values) => {
-    console.log("🚀 ~ handleSubmit ~ values:", values)
-  }
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formValues.fullName,
+          email: formValues.email,
+          phone: formValues.phone,
+          password: formValues.password,
+          location: formValues.location,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Registration failed. Please try again.");
+      }
+
+      // Mockup server usually wraps data under data.data
+      await response.json();
+
+      setMessage({
+        type: "success",
+        text: "Sign up successfully. You can login now.",
+      });
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: error.message || "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogin = async (formValues) => {
+    setLoading(true);
+    setMessage(null);
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Login request failed. Please try again.");
+      }
+
+      const data = await response.json();
+      const users = data?.data?.data || [];
+
+      const matchedUser = users.find(
+        (user) =>
+          user.email === formValues.email &&
+          // In a real app the password should be hashed and checked on the server
+          user.password === formValues.password
+      );
+
+      if (!matchedUser) {
+        setMessage({
+          type: "error",
+          text: "Invalid email or password.",
+        });
+      } else {
+        setMessage({
+          type: "success",
+          text: `Welcome back, ${matchedUser.name}!`,
+        });
+      }
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: error.message || "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isSignup = mode === "signup";
 
   return (
-    <div className="p-4 flex flex-col gap-4 bg-gray-200 h-screen items-center justify-center">
-      <div className="bg-white rounded-xl shadow-lg p-8">
-        <h1 className="text-lg font-bold text-center w-[500px]">Form Demo</h1>
-        <Form
-          layout="vertical"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={handleSubmit}
-        >
-          <Form.Item label={<InputLabel label="Username" required />} name="username">
-            <Input size="large" style={{ borderRadius: "5px", padding: "10px" }} />
-          </Form.Item>
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="w-full max-w-md px-6 py-10 bg-white shadow-md rounded-xl">
+        <h1 className="text-2xl font-semibold text-slate-900 mb-6">
+          Let&apos;s get you started
+        </h1>
 
-          <Form.Item label={<InputLabel label="Password" />} name="password" help={<InputLabel label="Password must be between 4 and 12 characters" customClassName="italic" />}>
-            <Input.Password size="large" style={{ borderRadius: "5px", padding: "10px" }} />
-          </Form.Item>
-
-          <Form.Item label={<InputLabel label="Input Text Label" />} name="errorInput" validateStatus="error" help={<InputLabel label="Error message informing me of a problem" customClassName="text-red-500 italic" />} >
-            <Input size="large" style={{ borderRadius: "5px", padding: "10px" }} suffix={<ExclamationCircleFilled />} />
-          </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <Form.Item name="switch">
-            <div className="flex items-center gap-3">
-              <Switch onChange={setSwitchValue} checked={switchValue} />
-              <span className="text-gray-700">{switchValue ? "On" : "Off"}</span>
-            </div>
-          </Form.Item>
-
-          <Form.Item name="radio" help={<InputLabel label={`Chossing option: ${radioValue}`} customClassName="italic" />}>
-            <Radio.Group style={{ display: "flex", flexDirection: "column", gap: "10px" }} onChange={(e) => setRadioValue(e.target.value)}>
-              <Radio value={1}>Radio selection 1</Radio>
-              <Radio value={2}>Radio selection 2</Radio>
-              <Radio value={3}>Radio selection 3</Radio>
-            </Radio.Group>
-          </Form.Item>
-
-          <Form.Item name="dropdown" label={<InputLabel label="Dropdown Title" />}>
-            <Select
-              size="large"
-              style={{ borderRadius: "5px" }}
-              placeholder="Select an option"
-              optionRender={(option) => (
-                <div className="py-2 px-3 hover:bg-indigo-50 rounded-md transition-colors">
-                  <span className="text-gray-700 font-medium">{option.label}</span>
-                </div>
-              )}
-              options={[
-                { label: "Dropdown option", value: "Dropdown option" },
-                { label: "Dropdown option 1", value: "Dropdown option 1" },
-                { label: "Dropdown option 2", value: "Dropdown option 2" },
-              ]}
-            />
-          </Form.Item>
-
-          <Form.Item className="mb-0 pt-6">
-            <div className="flex gap-4 justify-between">
-              <Button color="primary" variant="outlined" size="large" onClick={() => { console.log("Cancel") }}>Cancel</Button>
-              <Button type="primary" htmlType="submit" size="large">Submit</Button>
-            </div>
-          </Form.Item>
-
-        </Form>
+        {isSignup ? (
+          <SignupForm
+            loading={loading}
+            message={message}
+            onSubmit={handleSignup}
+            onSwitchToLogin={() => {
+              setMode("login");
+              setMessage(null);
+            }}
+          />
+        ) : (
+          <LoginForm
+            loading={loading}
+            message={message}
+            onSubmit={handleLogin}
+            onSwitchToSignup={() => {
+              setMode("signup");
+              setMessage(null);
+            }}
+          />
+        )}
       </div>
+    </div>
+  );
+};
 
-    </div >
-  )
-}
-export default App
+export default App;
+
